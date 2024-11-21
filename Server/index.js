@@ -28,7 +28,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use('/api/auth',AuthRoutes);
-
+app.use('/uploads/profiles',express.static("uploads/profiles"))
 
 app.get('/', (req, res) => res.send('Hello World!'))
 app.listen(port, () => console.log(`Chat app listening on port ${port}!`))
