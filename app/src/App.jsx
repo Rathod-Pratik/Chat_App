@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Auth from './Pages/auth';
-import Chat from './Pages/Chat/index';
+import Chat from './Pages/Chat';
 import Profile from './Pages/Profile';
 import { useAppStore } from './Store';
 import { apiClient } from './lib/api-client';
@@ -15,13 +15,13 @@ const PrivateRoute = ({ children }) => {
 };
 
 // Auth route to redirect authenticated users away from login
-const AuthRoute = ({ children }) => {
-  const { userInfo } = useAppStore();
-  const isAuthenticated = !!userInfo; // Corrected boolean logic
-  return isAuthenticated ? <Navigate to="/chat" /> : children;
-};
 
 const App = () => {
+  const AuthRoute = ({ children }) => {
+    const { userInfo } = useAppStore();
+    const isAuthenticated = !!userInfo; // Corrected boolean logic
+     return isAuthenticated ? <Navigate to="/chat" /> : children;
+  };
   const { userInfo, setUserInfo } = useAppStore();
   const [loading, setLoading] = useState(true); // Correctly initialized `loading`
 
@@ -56,7 +56,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/auth" element={<Auth />} />
-        <Route path="/chat" element={<AuthRoute><Chat/></AuthRoute>} />
+        <Route path="/chat" element={<PrivateRoute><Chat/></PrivateRoute>} />
         <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         <Route path="*" element={<Navigate to="/auth" />} />
       </Routes>

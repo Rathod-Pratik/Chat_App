@@ -11,18 +11,20 @@ const Chat = () => {
   const navigate=useNavigate();
 
    useEffect(()=>{
-     if(!userInfo.proffileSetup){
+     if(!userInfo.profileSetup){
        toast("Please Setup Profile to Continue");
        navigate('/profile')
      }
    },[userInfo,navigate])
 
   return (
+    <>
     <div className='flex h-[100vh] text-white overflow-hidden'>
       <ContectsContainer/> 
       <EmptyChatContainer/>
       <ChatContainer/>
     </div>
+    </>
   )
 }
 
