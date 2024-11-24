@@ -144,3 +144,12 @@ export const removeProfileImage=async(request, response, next)=>{
     console.log(error);
   }
 }
+export const logOut=async(request, response, next)=>{
+  try{
+   response.cookie("jwt","",{maxAge:1,secure:true,samesite:"None"})
+
+    return response.status(200).send("Logout successfull.");
+  }catch(error){
+    console.log(error);
+  }
+}
