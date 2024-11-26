@@ -11,6 +11,7 @@ import { FiEdit2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import {IoPowerSharp} from "react-icons/io5"
 import { apiClient } from "@/lib/api-client";
+import { getColor } from "@/lib/utils";
 
 const ProfileInfo = () => {
     const Navigate=useNavigate();
@@ -29,17 +30,14 @@ const ProfileInfo = () => {
   return (
     <div className="absolute bottom-0 h-16 flex items-center px-10 w-full bg-[#2a2b33] justify-between">
       <div className="flex gap-3 items-center justify-center">
-        <div className="w-12 h-12 required:">
+        <div className="w-12 h-12 relative">
           <Avatar className="h-12 w-12 rounded-full overflow-hidden border-[1px] ">
             {userInfo.image ? (
-              (console.log(userInfo.image),
-              (
                 <AvatarImage
                   src={`${HOST}${userInfo.image}`}
                   alt="Profile"
                   className="object-cover w-full h-full bg-black"
                 />
-              ))
             ) : (
               <div
                 className={`uppercase h-12 w-12  text-lg flex items-center justify-center rounded-full ${getColor(
