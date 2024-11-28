@@ -6,6 +6,7 @@ import mongoose from 'mongoose'
 import AuthRoutes from './routes/AuthRoutes.js'
 import contectRoutes from './routes/ContectRoutes.js'
 import SetupSocket from './socket.js'
+import messagesRoutes from './routes/MessagesRoutes.js'
 
 dotenv.config();
 const app = express()
@@ -32,7 +33,7 @@ app.use(express.json());
 app.use('/api/auth',AuthRoutes);
 app.use('/api/contects',contectRoutes);
 app.use('/uploads/profiles',express.static("uploads/profiles"))
-
+app.use('/api/messages',messagesRoutes);
 app.get('/', (req, res) => res.send('Hello World!'))
 const server=app.listen(port, () => console.log(`Chat app listening on port ${port}!`))
 SetupSocket(server)

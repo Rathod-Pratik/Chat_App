@@ -1,10 +1,10 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { getColor } from "@/lib/utils";
 import { useAppStore } from "@/Store";
 import { HOST } from "@/utils/Constants";
 import { RiCloseFill } from "react-icons/ri";
 const ChatHeader = () => {
   const { closeChat, selectedChatData, selectedChatType } = useAppStore();
-  console.log(selectedChatData.firstName)
   return (
     <div className=" h-[10vh] border-b-2 border-[#2f303b] flex text-center justify-between px-20 ">
       <div className=" flex gap-5 items-center w-full justify-between">
