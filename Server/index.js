@@ -27,12 +27,14 @@ app.use(cors({
     credentials:true
 }))
 
+app.use('/uploads/profiles',express.static("uploads/profiles"))
+app.use('/uploads/files',express.static("uploads/files"))
+
 app.use(cookieParser());
 app.use(express.json());
 
 app.use('/api/auth',AuthRoutes);
 app.use('/api/contects',contectRoutes);
-app.use('/uploads/profiles',express.static("uploads/profiles"))
 app.use('/api/messages',messagesRoutes);
 app.get('/', (req, res) => res.send('Hello World!'))
 const server=app.listen(port, () => console.log(`Chat app listening on port ${port}!`))

@@ -63,7 +63,7 @@ const Profile = () => {
       setselectedColor(userInfo.color);
     }
     if(userInfo.image){
-      setImage(`${HOST}${userInfo.image}`)
+      setImage(`${HOST}/${userInfo.image}`)
     }
   });
   const handleNavigation = () => {
