@@ -7,6 +7,7 @@ import AuthRoutes from './routes/AuthRoutes.js'
 import contectRoutes from './routes/ContectRoutes.js'
 import SetupSocket from './socket.js'
 import messagesRoutes from './routes/MessagesRoutes.js'
+import channelRoutes from './routes/ChannelRoutes.js'
 
 dotenv.config();
 const app = express()
@@ -36,6 +37,8 @@ app.use(express.json());
 app.use('/api/auth',AuthRoutes);
 app.use('/api/contects',contectRoutes);
 app.use('/api/messages',messagesRoutes);
+app.use('/api/channel',channelRoutes);
+
 app.get('/', (req, res) => res.send('Hello World!'))
 const server=app.listen(port, () => console.log(`Chat app listening on port ${port}!`))
 SetupSocket(server)

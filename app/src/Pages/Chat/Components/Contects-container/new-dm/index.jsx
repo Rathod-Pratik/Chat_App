@@ -72,7 +72,7 @@ const NewDM = () => {
               <div>
                 <Input
                   placeholder="Search Contects"
-                  className="rounded-lg bg-[#2c2e3b] border-none"
+                  className="rounded-lg bg-[#2c2e3b] p-6 border-none"
                   onChange={(e) => SearchContect(e.target.value)}
                 />
               </div>
