@@ -7,10 +7,12 @@ import AuthRoutes from './routes/AuthRoutes.js'
 import contectRoutes from './routes/ContectRoutes.js'
 import SetupSocket from './socket.js'
 import messagesRoutes from './routes/MessagesRoutes.js'
-import channelRoutes from './routes/ChannelRoutes.js'
-
+import channelRoutes from './routes/ChannelRoutes.js' 
+import bodyParser from 'body-parser';
+import {Server} from "socket.io"; 
 dotenv.config();
-const app = express()
+const app = express();
+const io=new Server();
 const port = process.env.PORT || 3000;
 const databaseURL=process.env.DATABASE_URL;
 
@@ -27,7 +29,7 @@ app.use(cors({
     methods:["GET",'POST','PATCH','DELETE',"PUT"],
     credentials:true
 }))
-
+app.use(bodyParser.json());
 app.use('/uploads/profiles',express.static("uploads/profiles"))
 app.use('/uploads/files',express.static("uploads/files"))
 
@@ -41,5 +43,7 @@ app.use('/api/channel',channelRoutes);
 
 app.get('/', (req, res) => res.send('Hello World!'))
 const server=app.listen(port, () => console.log(`Chat app listening on port ${port}!`))
-SetupSocket(server)
+SetupSocket(server);
+io.listen(8001);
+
 

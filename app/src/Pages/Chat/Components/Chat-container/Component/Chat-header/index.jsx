@@ -3,8 +3,17 @@ import { getColor } from "@/lib/utils";
 import { useAppStore } from "@/Store";
 import { HOST } from "@/utils/Constants";
 import { RiCloseFill } from "react-icons/ri";
+import { IoIosCall } from "react-icons/io";
+import { FaVideo } from "react-icons/fa";
+import { useSocket } from "@/context/socketContext";
 const ChatHeader = () => {
+
+  const {socket}=useSocket();
+
   const { closeChat, selectedChatData, selectedChatType } = useAppStore();
+  const handleJoinRoom=()=>{
+    socket.emit("videoCall",{userId:selectedChatData._id})
+  }
   return (
     <div className=" h-[10vh] border-b-2 border-[#2f303b] flex text-center justify-between px-20 ">
       <div className=" flex gap-5 items-center w-full justify-between">
@@ -46,9 +55,16 @@ const ChatHeader = () => {
         <div className=" flex items-center justify-center gap-5">
           <button
             className="text-neutral-500  focus:border-none focus:outline-none focus:text-white duration-300 transition-all"
-            onClick={closeChat}
+             onClick={handleJoinRoom}
           >
-            <RiCloseFill className=" text-3xl " />
+            {/* <RiCloseFill className=" text-3xl " /> */}
+            <FaVideo className=" text-3xl " />
+          </button>
+          <button
+            className="text-neutral-500  focus:border-none focus:outline-none focus:text-white duration-300 transition-all"
+          >
+            {/* <RiCloseFill className=" text-3xl " /> */}
+            <IoIosCall className=" text-3xl " />
           </button>
         </div>
       </div>

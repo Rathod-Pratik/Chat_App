@@ -8,8 +8,8 @@ import { GrAttachment } from "react-icons/gr";
 import { IoSend } from "react-icons/io5";
 import { RiEmojiStickerLine } from "react-icons/ri";
 const MessageBar = () => {
-  const socket =useSocket();
-  const {selectedChatData,selectedChatType,userInfo}= useAppStore();
+  const socket = useSocket();
+  const { selectedChatData, selectedChatType, userInfo } = useAppStore();
   const emojiRef = useRef();
   const FileInputRef = useRef();
   const [emojiPicker, setemojiPicker] = useState(false);
@@ -18,57 +18,76 @@ const MessageBar = () => {
     SetMessage((msg) => msg + emoji.emoji);
   };
   const HandleSendMessage = () => {
-    if(selectedChatType=="contact"){
-      socket.emit("sendMessage",{
-        sender:userInfo.id,
-        content:Message,
-        recipient:selectedChatData._id,
-        messageType:"text",
-        fileUrl:undefined
-      })
+    if (selectedChatType == "contact") {
+      socket.emit("sendMessage", {
+        sender: userInfo.id,
+        content: Message,
+        recipient: selectedChatData._id,
+        messageType: "text",
+        fileUrl: undefined,
+      });
+    } else  if(selectedChatType === "channel") {
+      socket.emit("send-channel-message", {
+        sender: userInfo.id,
+        content: Message,
+        messageType: "text",
+        fileUrl: undefined,
+        channelId: selectedChatData._id,
+      });
+    }
+    SetMessage("");
+  };
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (emojiRef.current && !emojiRef.current.contains(event.target)) {
+        setemojiPicker(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [emojiRef]);
+  const handleAttachmentClick = () => {
+    if (FileInputRef.current) {
+      FileInputRef.current.click();
     }
   };
-  useEffect(()=>{
-function handleClickOutside(event){
-    if(emojiRef.current && !emojiRef.current.contains(event.target)){
-        setemojiPicker(false);
-    }
-}
-    document.addEventListener("mousedown",handleClickOutside);
+  const handleAttachmentChange = async (event) => {
+    try {
+      const file = event.target.files[0];
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        const response = await apiClient.post(UPLOAD_FILE_ROUTE, formData, {
+          withCredentials: true,
+        });
 
-    return ()=>{
-        document.removeEventListener("mousedown",handleClickOutside);
+        if (response.status === 200 && response.data) {
+          if (selectedChatType === "contact") {
+            socket.emit("sendMessage", {
+              sender: userInfo.id,
+              content: undefined,
+              messageType: "file",
+              fileUrl: response.data.filePath,
+              recipient: selectedChatData._id,
+            });
+          } else if (selectedChatType === "channel") {
+            socket.emit("send-channel-message", {
+              sender: userInfo.id,
+              content: undefined,
+              channelId: selectedChatData._id,
+              messageType: "file",
+              fileUrl: response.data.filePath,
+            });
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
-},[emojiRef])
-const handleAttachmentClick=()=>{
-  if(FileInputRef.current){
-    FileInputRef.current.click();
-  }
-}
-const handleAttachmentChange=async(event)=>{
-try {
-  const file=event.target.files[0];
-  if(file){
-    const formData=new FormData();
-    formData.append("file",file);
-    const response=await apiClient.post(UPLOAD_FILE_ROUTE,formData,{withCredentials:true})
-
-    if(response.status===200 && response.data){
-      if(selectedChatType==="contact"){
-      socket.emit("sendMessage",{
-        sender:userInfo.id,
-        content:undefined,
-        recipient:selectedChatData._id,
-        messageType:"file",
-        fileUrl:response.data.filePath
-      })
-    }
-  }
-  }
-} catch (error) {
-  console.log(error)
-}
-}
+  };
   return (
     <div className="h-[10vh] bg-[#1c1d25] flex  justify-center items-center px-8 mb-6 gap-6">
       <div className="flex-1 flex bg-[#2a2b33] rounded-md items-center gap-5 pr-5">
@@ -79,10 +98,18 @@ try {
           onChange={(e) => SetMessage(e.target.value)}
           value={Message}
         />
-        <button onClick={handleAttachmentClick} className="text-neutral-500 focus:border-none focus:outline-none focus:text-white duration-300 transition-all">
+        <button
+          onClick={handleAttachmentClick}
+          className="text-neutral-500 focus:border-none focus:outline-none focus:text-white duration-300 transition-all"
+        >
           <GrAttachment className="text-2xl" />
         </button>
-        <input type="file" className="hidden" ref={FileInputRef} onChange={handleAttachmentChange} />
+        <input
+          type="file"
+          className="hidden"
+          ref={FileInputRef}
+          onChange={handleAttachmentChange}
+        />
         <div className="relative">
           <button
             className="text-neutral-500 focus:border-none focus:outline-none focus:text-white duration-300 transition-all"
