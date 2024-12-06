@@ -12,7 +12,6 @@ export const useSocket = () => {
 
 export const SocketProvider = ({ children }) => {
   const socket = useRef();
-  // sconst socketServer = io("http://localhost:8001");
   const { userInfo, selectedChatType, selectedChatData, addMessage,addContactsInDMContacts } = useAppStore(); 
 
   useEffect(() => {
@@ -26,15 +25,14 @@ export const SocketProvider = ({ children }) => {
         console.log("Connected to socket Server");
       });
 
-      // Move handleRecieveMessage logic outside of the hook
       const handleRecieveMessage = (message) => {
-        if (
-          selectedChatType !== undefined &&
-          (selectedChatData._id === message.sender._id ||
-            selectedChatData._id === message.recipient._id)
-        ){ 
-        addMessage(message);
-        }
+        // if (
+        //   selectedChatType !==undefined &&
+        //   (selectedChatData._id === message.sender._id ||
+        //     selectedChatData._id === message.recipient._id)
+        // ){ 
+          addMessage(message);
+        // }
         addContactsInDMContacts(message);
       };
 

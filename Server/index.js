@@ -12,7 +12,7 @@ import bodyParser from 'body-parser';
 import {Server} from "socket.io"; 
 dotenv.config();
 const app = express();
-const io=new Server();
+// const io=new Server();
 const port = process.env.PORT || 3000;
 const databaseURL=process.env.DATABASE_URL;
 
@@ -44,6 +44,6 @@ app.use('/api/channel',channelRoutes);
 app.get('/', (req, res) => res.send('Hello World!'))
 const server=app.listen(port, () => console.log(`Chat app listening on port ${port}!`))
 SetupSocket(server);
-io.listen(8001);
+// io.listen(8001);
 
 

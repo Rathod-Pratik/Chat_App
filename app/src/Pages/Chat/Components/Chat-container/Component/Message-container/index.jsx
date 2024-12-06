@@ -40,6 +40,7 @@ const MessageContainer = () => {
           { id: selectedChatData._id },
           { withCredentials: true }
         );
+        // console.log(response.data.messages);
         if (response.data.messages) {
           setSelectedChatMessages(response.data.messages);
         }
@@ -53,7 +54,7 @@ const MessageContainer = () => {
          `${GET_CHANNEL_MESSAGES}/${selectedChatData._id}`,
           { withCredentials: true }
         );
-        console.log(response.data.messages);
+        // console.log(response.data.messages);
         if(response.data.messages){
           setSelectedChatMessages(response.data.messages);
         }

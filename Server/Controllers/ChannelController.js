@@ -18,7 +18,7 @@ export const createChannel = async (request, response, next) => {
     if(validMembers.length !== members.length){
         return response.status(400).send("Some members are not valid users.");
     }
-    const newChannel=new channel({
+    const newChannel=new Channel({
         name,
         members,
         admin:userId,
