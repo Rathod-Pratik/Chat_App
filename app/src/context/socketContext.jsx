@@ -12,7 +12,7 @@ export const useSocket = () => {
 
 export const SocketProvider = ({ children }) => {
   const socket = useRef();
-  const socketServer = io("http://localhost:8001");
+  // sconst socketServer = io("http://localhost:8001");
   const { userInfo, selectedChatType, selectedChatData, addMessage,addContactsInDMContacts } = useAppStore(); 
 
   useEffect(() => {

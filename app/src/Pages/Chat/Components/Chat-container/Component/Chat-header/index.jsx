@@ -55,17 +55,17 @@ const ChatHeader = () => {
         <div className=" flex items-center justify-center gap-5">
           <button
             className="text-neutral-500  focus:border-none focus:outline-none focus:text-white duration-300 transition-all"
-             onClick={handleJoinRoom}
+             onClick={closeChat}
           >
-            {/* <RiCloseFill className=" text-3xl " /> */}
-            <FaVideo className=" text-3xl " />
+            <RiCloseFill className=" text-3xl " />
+            {/* <FaVideo className=" text-3xl " /> */}
           </button>
-          <button
+          {/* <button
             className="text-neutral-500  focus:border-none focus:outline-none focus:text-white duration-300 transition-all"
           >
-            {/* <RiCloseFill className=" text-3xl " /> */}
+             <RiCloseFill className=" text-3xl " /> }
             <IoIosCall className=" text-3xl " />
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
